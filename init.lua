@@ -124,8 +124,8 @@ vim.opt.breakindent = true
 -- Save undo history
 vim.opt.undofile = true
 
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.opt.ignorecase = true
+-- Case-sensitive searching UNLESS \C or one or more capital letters in the search term
+vim.opt.ignorecase = false
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
@@ -481,7 +481,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -848,9 +848,9 @@ require('lazy').setup({
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
-          ['<C-n>'] = cmp.mapping.select_next_item(),
+          --['<C-n>'] = cmp.mapping.select_next_item(),
           -- Select the [p]revious item
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          --['<C-p>'] = cmp.mapping.select_prev_item(),
 
           -- Scroll the documentation window [b]ack / [f]orward
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -859,13 +859,13 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          --['<C-y>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          --['<CR>'] = cmp.mapping.confirm { select = true },
-          --['<Tab>'] = cmp.mapping.select_next_item(),
-          --['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          ['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -926,6 +926,7 @@ require('lazy').setup({
   --      vim.cmd.hi 'Comment gui=none'
   --    end,
   -- },
+
   {
     'rmehri01/onenord.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
@@ -939,6 +940,30 @@ require('lazy').setup({
       vim.cmd.hi 'Comment gui=none'
     end,
   },
+
+  {
+    'gbprod/nord.nvim',
+    lazy = false,
+    name = 'nord2',
+    priority = 1000,
+    config = function()
+      --require('nord').setup {}
+      vim.cmd.colorscheme 'nord'
+    end,
+  },
+  install = {
+    colorscheme = { 'nord' },
+  },
+  --{
+  --  'rmehri01/onenord.nvim',
+  --'shaunsingh/nord.nvim',
+  --'gbprod/nord.nvim',
+  --name = 'nord',
+  --  priority = 1000,
+  --  init = function()
+  --    vim.cmd.colorscheme 'nord'
+  --  end,
+  --},
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
